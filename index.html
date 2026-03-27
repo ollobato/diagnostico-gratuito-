@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diagnóstico de Marca — ARQA Content</title>
+  <meta name="description" content="Descubra o que está travando o crescimento da sua marca. Diagnóstico gratuito e personalizado com IA.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #141313;
+      --surface: #1c1b1b;
+      --surface2: #222121;
+      --accent: #f65800;
+      --text: #F0EDE6;
+      --muted: #777;
+      --border: #2a2828;
+      --radius: 8px;
+      --danger: #FF4D4D;
+      --ok: #48C882;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      width: 100%;
+      max-width: 680px;
+      padding: 60px 24px 48px;
+      text-align: center;
+    }
+
+    .hero-brand {
+      font-family: 'Syne', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(246,88,0,0.1);
+      border: 0.5px solid rgba(246,88,0,0.3);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent);
+      margin-bottom: 28px;
+      letter-spacing: 0.02em;
+    }
+
+    .hero-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: blink 2s ease-in-out infinite;
+    }
+
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    .hero-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(32px, 6vw, 52px);
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 20px;
+    }
+
+    .hero-title span { color: var(--accent); }
+
+    .hero-sub {
+      font-size: 16px;
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.65;
+      max-width: 480px;
+      margin: 0 auto 36px;
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 300;
+      margin-top: 2px;
+    }
+
+    /* ─── FORM CARD ─── */
+    .form-card {
+      width: 100%;
+      max-width: 680px;
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      margin: 0 24px 80px;
+    }
+
+    .card-header {
+      padding: 28px 36px 24px;
+      border-bottom: 0.5px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .card-header-left .brand {
+      font-family: 'Syne', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .card-header-left .step-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+
+    .step-counter {
+      text-align: right;
+    }
+
+    .step-counter .num {
+      font-family: 'Syne', sans-serif;
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+
+    .step-counter .of {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 300;
+      margin-top: 2px;
+    }
+
+    .progress-bar {
+      height: 2px;
+      background: var(--border);
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--accent);
+      transition: width 0.45s cubic-bezier(0.77,0,0.175,1);
+    }
+
+    /* ─── FORM BODY ─── */
+    .form-body {
+      padding: 32px 36px 8px;
+    }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 0.5px;
+      background: var(--border);
+    }
+
+    .question-block { margin-bottom: 24px; }
+
+    .question-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    .question-sub {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 10px;
+      font-weight: 300;
+      line-height: 1.5;
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 500px) {
+      .field-row { grid-template-columns: 1fr; }
+      .options-grid.cols2 { grid-template-columns: 1fr; }
+      .form-body { padding: 24px 20px 8px; }
+      .card-header { padding: 22px 20px 18px; }
+      .form-footer { padding: 14px 20px 24px; }
+      .hero { padding: 48px 20px 36px; }
+    }
+
+    .field-input {
+      width: 100%;
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 13px 16px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+      resize: none;
+      -webkit-appearance: none;
+    }
+
+    .field-input::placeholder { color: var(--muted); }
+    .field-input:focus { border-color: var(--accent); }
+
+    .options-grid { display: flex; flex-direction: column; gap: 6px; }
+    .options-grid.cols2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+
+    .opt-item { display: none; }
+
+    .opt-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 13px;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.18s;
+      line-height: 1.35;
+      user-select: none;
+    }
+
+    .opt-label:hover { border-color: #3a3a3a; color: var(--text); }
+
+    .opt-item:checked + .opt-label {
+      border-color: var(--accent);
+      color: var(--text);
+      background: rgba(246,88,0,0.05);
+    }
+
+    .opt-dot {
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      flex-shrink: 0;
+      transition: all 0.18s;
+      position: relative;
+    }
+
+    .opt-item:checked + .opt-label .opt-dot {
+      border-color: var(--accent);
+      background: var(--accent);
+    }
+
+    .opt-item:checked + .opt-label .opt-dot::after {
+      content: '';
+      position: absolute;
+      inset: 4px;
+      border-radius: 50%;
+      background: #141313;
+    }
+
+    .scale-row { display: flex; gap: 6px; }
+    .scale-item { display: none; }
+
+    .scale-label {
+      flex: 1;
+      text-align: center;
+      padding: 12px 6px;
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 14px;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.18s;
+      font-weight: 500;
+      user-select: none;
+    }
+
+    .scale-label:hover { border-color: #3a3a3a; color: var(--text); }
+
+    .scale-item:checked + .scale-label {
+      border-color: var(--accent);
+      background: rgba(246,88,0,0.07);
+      color: var(--accent);
+    }
+
+    .scale-ends {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 6px;
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    /* ─── FOOTER NAV ─── */
+    .form-footer {
+      padding: 16px 36px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .btn-back {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      color: var(--muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 12px 0;
+      transition: color 0.2s;
+    }
+
+    .btn-back:hover { color: var(--text); }
+
+    .btn-next {
+      font-family: 'Syne', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: var(--accent);
+      color: #0D0D0D;
+      border: none;
+      border-radius: var(--radius);
+      padding: 14px 28px;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+
+    .btn-next:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-next:active { transform: translateY(0); }
+
+    /* ─── REPORT ─── */
+    .report-body { padding: 32px 36px 36px; }
+
+    .report-kicker {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .report-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;
+    }
+
+    .report-meta {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 300;
+      margin-bottom: 28px;
+    }
+
+    .report-block {
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 22px;
+      margin-bottom: 10px;
+    }
+
+    .report-block-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 3px;
+    }
+
+    .badge-danger { background: rgba(255,77,77,0.12); color: var(--danger); }
+    .badge-warn   { background: rgba(246,88,0,0.12); color: var(--accent); }
+    .badge-ok     { background: rgba(72,200,130,0.12); color: var(--ok); }
+
+    .report-block-body {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.75;
+      font-weight: 300;
+    }
+
+    .report-block-body strong { color: var(--text); font-weight: 500; }
+
+    .loading-text {
+      font-size: 14px;
+      color: var(--muted);
+      font-style: italic;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    .report-divider {
+      height: 0.5px;
+      background: var(--border);
+      margin: 24px 0;
+    }
+
+    .report-footer-btns {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-restart {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      color: var(--muted);
+      background: var(--surface2);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-restart:hover { color: var(--text); border-color: #3a3a3a; }
+
+    .btn-copy {
+      font-family: 'Syne', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: var(--accent);
+      color: #0D0D0D;
+      border: none;
+      border-radius: var(--radius);
+      padding: 12px 24px;
+      cursor: pointer;
+      flex: 1;
+      transition: opacity 0.2s;
+    }
+
+    .btn-copy:hover { opacity: 0.85; }
+
+    /* ─── FOOTER ─── */
+    .page-footer {
+      width: 100%;
+      max-width: 680px;
+      padding: 0 24px 48px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    .page-footer a { color: var(--muted); text-decoration: none; }
+    .page-footer a:hover { color: var(--text); }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-brand">ARQA Content</div>
+    <div class="hero-badge">Diagnóstico gratuito</div>
+    <h1 class="hero-title">Sua marca está<br><span>afastando clientes</span>?</h1>
+    <p class="hero-sub">Responda 4 blocos de perguntas e receba um diagnóstico gerado pela nossa IA — desenvolvida e treinada pela ARQA Content para identificar com precisão o que está travando o crescimento da sua marca e apontar o caminho mais eficiente para corrigir.</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">4 min</div>
+        <div class="stat-label">para completar</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">gratuito</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">IA</div>
+        <div class="stat-label">treinada pela ARQA</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORM CARD -->
+  <div class="form-card" id="app">
+    <div id="form-area">
+      <div class="card-header">
+        <div class="card-header-left">
+          <div class="brand">ARQA Content</div>
+          <div class="step-title" id="step-title">Seus dados</div>
+        </div>
+        <div class="step-counter">
+          <div class="num" id="step-num">1</div>
+          <div class="of">de 4 blocos</div>
+        </div>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress" style="width:25%"></div>
+      </div>
+
+      <div class="form-body">
+
+        <!-- BLOCO 1: LEAD -->
+        <div class="form-step" id="step-1">
+          <div class="section-label">Informações básicas</div>
+
+          <div class="question-block field-row">
+            <div>
+              <div class="question-label">Nome completo</div>
+              <input class="field-input" id="q-nome-lead" type="text" placeholder="Seu nome" autocomplete="name">
+            </div>
+            <div>
+              <div class="question-label">Nome do negócio</div>
+              <input class="field-input" id="q-nome-negocio" type="text" placeholder="Ex: Studio Forma">
+            </div>
+          </div>
+
+          <div class="question-block field-row">
+            <div>
+              <div class="question-label">E-mail</div>
+              <input class="field-input" id="q-email" type="email" placeholder="seu@email.com" autocomplete="email">
+            </div>
+            <div>
+              <div class="question-label">WhatsApp</div>
+              <input class="field-input" id="q-telefone" type="tel" placeholder="(00) 00000-0000" autocomplete="tel">
+            </div>
+          </div>
+
+          <div class="question-block">
+            <div class="question-label">Segmento de atuação</div>
+            <input class="field-input" id="q-segmento" type="text" placeholder="Ex: moda feminina, consultoria financeira, estética...">
+          </div>
+
+          <div class="question-block">
+            <div class="question-label">Há quanto tempo o seu negócio existe?</div>
+            <div class="options-grid cols2">
+              <input type="radio" name="tempo" id="t1" value="Menos de 1 ano" class="opt-item">
+              <label for="t1" class="opt-label"><span class="opt-dot"></span>Menos de 1 ano</label>
+              <input type="radio" name="tempo" id="t2" value="Entre 1 e 3 anos" class="opt-item">
+              <label for="t2" class="opt-label"><span class="opt-dot"></span>Entre 1 e 3 anos</label>
+              <input type="radio" name="tempo" id="t3" value="Entre 3 e 5 anos" class="opt-item">
+              <label for="t3" class="opt-label"><span class="opt-dot"></span>Entre 3 e 5 anos</label>
+              <input type="radio" name="tempo" id="t4" value="Mais de 5 anos" class="opt-item">
+              <label for="t4" class="opt-label"><span class="opt-dot"></span>Mais de 5 anos</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOCO 2: IDENTIDADE VISUAL -->
+        <div class="form-step hidden" id="step-2">
+          <div class="section-label">Identidade visual e consistência</div>
+
+          <div class="question-block">
+            <div class="question-label">Você tem identidade visual definida — logo, paleta de cores e fontes?</div>
+            <div class="options-grid">
+              <input type="radio" name="identidade" id="id1" value="Sim, completa e feita por um profissional" class="opt-item">
+              <label for="id1" class="opt-label"><span class="opt-dot"></span>Sim, completa e feita por um profissional</label>
+              <input type="radio" name="identidade" id="id2" value="Tenho algo, mas fiz eu mesmo ou é improvisado" class="opt-item">
+              <label for="id2" class="opt-label"><span class="opt-dot"></span>Tenho algo, mas fiz eu mesmo ou é improvisado</label>
+              <input type="radio" name="identidade" id="id3" value="Não tenho nada formalizado" class="opt-item">
+              <label for="id3" class="opt-label"><span class="opt-dot"></span>Não tenho nada formalizado</label>
+            </div>
+          </div>
+
+          <div class="question-block">
+            <div class="question-label">Seus materiais são visualmente consistentes entre Instagram, WhatsApp e outros canais?</div>
+            <div class="scale-row">
+              <input type="radio" name="consistencia" id="c1" value="1" class="scale-item"><label for="c1" class="scale-label">1</label>
+              <input type="radio" name="consistencia" id="c2" value="2" class="scale-item"><label for="c2" class="scale-label">2</label>
+              <input type="radio" name="consistencia" id="c3" value="3" class="scale-item"><label for="c3" class="scale-label">3</label>
+              <input type="radio" name="consistencia" id="c4" value="4" class="scale-item"><label for="c4" class="scale-label">4</label>
+              <input type="radio" name="consistencia" id="c5" value="5" class="scale-item"><label for="c5" class="scale-label">5</label>
+            </div>
+            <div class="scale-ends"><span>Nada consistente</span><span>Totalmente consistente</span></div>
+          </div>
+
+          <div class="question-block">
+            <div class="question-label">Se um cliente novo chegasse ao seu perfil agora, qual seria a primeira impressão visual?</div>
+            <div class="options-grid">
+              <input type="radio" name="impressao" id="im1" value="Profissional e confiável" class="opt-item">
+              <label for="im1" class="opt-label"><span class="opt-dot"></span>Profissional e confiável</label>
+              <input type="radio" name="impressao" id="im2" value="Razoável, mas poderia melhorar" class="opt-item">
+              <label for="im2" class="opt-label"><span class="opt-dot"></span>Razoável, mas poderia melhorar</label>
+              <input type="radio" name="impressao" id="im3" value="Amador ou sem identidade clara" class="opt-item">
+              <label for="im3" class="opt-label"><span class="opt-dot"></span>Amador ou sem identidade clara</label>
+            </div>
+          </div>
+
+          <div class="question-block">
+            <div class="question-label">Você já perdeu um cliente ou oportunidade por causa da aparência da sua marca?</div>
+            <div class="options-grid cols2">
+              <input type="radio" name="perdeu" id="p1" value="Sim, tenho certeza" class="opt-item">
+              <label for="p1" class="opt-label"><span class="opt-dot"></span>Sim, tenho certeza</label>
+              <input type="radio" name="perdeu" id="p2" value="Suspeito que sim" class="opt-item">
+              <label for="p2" class="opt-label"><span class="opt-dot"></span>Suspeito que sim</label>
+              <input type="radio" name="perdeu" id="p3" value="Não acredito que sim" class="opt-item">
+              <label for="p3" class="opt-label"><span class="opt-dot"></span>Não acredito que sim</label>
+              <input type="radio" name="perdeu" id="p4" value="Nunca pensei nisso" class="opt-item">
+              <label for="p4" class="opt-label"><span class="opt-dot"></span>Nunca pensei nisso</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOCO 3: POSICIONAMENTO -->
+        <div class="form-step hidden" id="step-3">
+          <div class="section-label">Posicionamento e diferenciação</div>
+
+          <div class="question-block">
+            <div class="question-label">Em uma frase, o que você faz e para quem?</div>
+            <div class="question-sub">Escreva como explicaria para um desconhecido em 10 segundos.</div>
+            <textarea class="field-input" id="q-proposta" rows="2" placeholder="Ex: ajudo pequenas marcas de moda a vender mais pelo Instagram sem depender de tráfego pago."></textarea>
+          </div>
+
+          <div class="question-block">
+            <div class="question-label">O que te diferencia dos seus principais concorrentes?</div>
+            <div class="question-sub">Seja específico. Evite respostas como "qualidade e atendimento".</div>
+            <textarea class="field-input" id="q-diferencial" rows="2" placeholder="Ex: método exclusivo, nicho muito específico, resultado em prazo menor..."></textarea>
+          </div>
+
+          <div class="question-block">
+            <div class="question-label">Quem é seu cliente ideal? Descreva em detalhes.</div>
+            <div class="question-sub">Idade, perfil, dor principal e o que ele busca quando chega até você.</div>
+            <textarea class="field-input" id="q-cliente" rows="3" placeholder="Ex: mulheres entre 30 e 45 anos, donas de negócio local, que querem crescer no digital mas não têm tempo..."></textarea>
+          </div>
+
+          <div class="question-block">
+            <div class="question-label">Um cliente novo consegue entender o que você faz em menos de 5 segundos no seu perfil?</div>
+            <div class="options-grid cols2">
+              <input type="radio" name="clareza" id="cl1" value="Sim, com certeza" class="opt-item">
+              <label for="cl1" class="opt-label"><span class="opt-dot"></span>Sim, com certeza</label>
+              <input type="radio" name="clareza" id="cl2" value="Acho que sim" class="opt-item">
+              <label for="cl2" class="opt-label"><span class="opt-dot"></span>Acho que sim</label>
+              <input type="radio" name="clareza" id="cl3" value="Tenho dúvidas" class="opt-item">
+              <label for="cl3" class="opt-label"><span class="opt-dot"></span>Tenho dúvidas</label>
+              <input type="radio" name="clareza" id="cl4" value="Provavelmente não" class="opt-item">
+              <label for="cl4" class="opt-label"><span class="opt-dot"></span>Provavelmente não</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOCO 4: PRESENÇA DIGITAL -->
+        <div class="form-step hidden" id="step-4">
+          <div class="section-label">Presença digital e conteúdo</div>
+
+          <div class="question-block">
+            <div class="question-label">Com que frequência você publica conteúdo hoje?</div>
+            <div class="options-grid">
+              <input type="radio" name="freq" id="f1" value="Todo dia ou quase todo dia" class="opt-item">
+              <label for="f1" class="opt-label"><span class="opt-dot"></span>Todo dia ou quase todo dia</label>
+              <input type="radio" name="freq" id="f2" value="2 a 3 vezes por semana" class="opt-item">
+              <label for="f2" class="opt-label"><span class="opt-dot"></span>2 a 3 vezes por semana</label>
+              <input type="radio" name="freq" id="f3" value="Quando lembro ou tenho tempo" class="opt-item">
+              <label for="f3" class="opt-label"><span class="opt-dot"></span>Quando lembro ou tenho tempo</label>
+              <input type="radio" name="freq" id="f4" value="Raramente ou não publico" class="opt-item">
+              <label for="f4" class="opt-label"><span class="opt-dot"></span>Raramente ou não publico</label>
+            </div>
+          </div>
+
+          <div class="question-block">
+            <div class="question-label">Seu conteúdo segue uma linha editorial ou você posta sem planejamento?</div>
+            <div class="options-grid">
+              <input type="radio" name="editorial" id="e1" value="Tenho linha editorial clara e sigo ela" class="opt-item">
+              <label for="e1" class="opt-label"><span class="opt-dot"></span>Tenho linha editorial clara e sigo ela</label>
+              <input type="radio" name="editorial" id="e2" value="Tenho uma ideia, mas não é estruturada" class="opt-item">
+              <label for="e2" class="opt-label"><span class="opt-dot"></span>Tenho uma ideia, mas não é estruturada</label>
+              <input type="radio" name="editorial" id="e3" value="Posto o que vem na cabeça, sem planejamento" class="opt-item">
+              <label for="e3" class="opt-label"><span class="opt-dot"></span>Posto o que vem na cabeça, sem planejamento</label>
+            </div>
+          </div>
+
+          <div class="question-block">
+            <div class="question-label">Seu conteúdo gera vendas diretas ou só curtidas?</div>
+            <div class="options-grid cols2">
+              <input type="radio" name="conversao" id="cv1" value="Gera vendas com frequência" class="opt-item">
+              <label for="cv1" class="opt-label"><span class="opt-dot"></span>Gera vendas com frequência</label>
+              <input type="radio" name="conversao" id="cv2" value="Gera vendas às vezes" class="opt-item">
+              <label for="cv2" class="opt-label"><span class="opt-dot"></span>Gera vendas às vezes</label>
+              <input type="radio" name="conversao" id="cv3" value="Só curtidas e engajamento" class="opt-item">
+              <label for="cv3" class="opt-label"><span class="opt-dot"></span>Só curtidas e engajamento</label>
+              <input type="radio" name="conversao" id="cv4" value="Não gera nada ainda" class="opt-item">
+              <label for="cv4" class="opt-label"><span class="opt-dot"></span>Não gera nada ainda</label>
+            </div>
+          </div>
+
+          <div class="question-block">
+            <div class="question-label">Qual é sua maior dificuldade com a presença digital hoje?</div>
+            <div class="question-sub">Seja honesto. Quanto mais detalhes, mais preciso o diagnóstico.</div>
+            <textarea class="field-input" id="q-dificuldade" rows="3" placeholder="Ex: não sei o que postar, não tenho tempo, não gero vendas pelo Instagram..."></textarea>
+          </div>
+
+          <div class="question-block">
+            <div class="question-label">Qual resultado você espera com uma marca mais forte?</div>
+            <textarea class="field-input" id="q-objetivo" rows="2" placeholder="Ex: atrair clientes melhores, cobrar mais caro, ser referência no meu nicho..."></textarea>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="form-footer">
+        <button class="btn-back" id="btn-back" onclick="stepBack()">← Voltar</button>
+        <button class="btn-next" id="btn-next" onclick="stepNext()">Próximo bloco →</button>
+      </div>
+    </div>
+
+    <!-- RELATÓRIO -->
+    <div class="hidden" id="report-area">
+      <div class="report-body">
+        <div class="report-kicker">Diagnóstico ARQA Content · IA Proprietária</div>
+        <div class="report-name" id="report-name">Analisando...</div>
+        <div class="report-meta" id="report-meta"></div>
+        <div id="report-blocks"></div>
+        <div class="report-divider" id="report-divider" style="display:none"></div>
+        <div class="report-footer-btns" id="report-footer-btns" style="display:none">
+          <button class="btn-restart" onclick="restart()">Novo diagnóstico</button>
+          <button class="btn-copy" id="btn-copy" onclick="copyReport()">Copiar relatório</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="page-footer">
+    Diagnóstico gerado pela IA proprietária da <a href="#">ARQA Content</a> &nbsp;·&nbsp; Gratuito e confidencial
+  </footer>
+
+  <script>
+    const STEPS = ['Seus dados', 'Identidade visual', 'Posicionamento', 'Presença digital'];
+    let cur = 1;
+    const total = 4;
+
+    function updateNav() {
+      document.getElementById('step-num').textContent = cur;
+      document.getElementById('step-title').textContent = STEPS[cur - 1];
+      document.getElementById('progress').style.width = (cur / total * 100) + '%';
+      document.getElementById('btn-back').style.visibility = cur === 1 ? 'hidden' : 'visible';
+      document.getElementById('btn-next').textContent = cur === total ? 'Gerar diagnóstico →' : 'Próximo bloco →';
+    }
+
+    function stepNext() {
+      if (cur < total) {
+        document.getElementById('step-' + cur).classList.add('hidden');
+        cur++;
+        document.getElementById('step-' + cur).classList.remove('hidden');
+        updateNav();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        generateReport();
+      }
+    }
+
+    function stepBack() {
+      if (cur > 1) {
+        document.getElementById('step-' + cur).classList.add('hidden');
+        cur--;
+        document.getElementById('step-' + cur).classList.remove('hidden');
+        updateNav();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    function getVal(id) {
+      const el = document.getElementById(id);
+      return el ? el.value.trim() : '';
+    }
+
+    function getRadio(name) {
+      const el = document.querySelector(`input[name="${name}"]:checked`);
+      return el ? el.value : 'Não respondido';
+    }
+
+    function collectData() {
+      return {
+        nomeLead: getVal('q-nome-lead') || 'Lead',
+        nomeNegocio: getVal('q-nome-negocio') || 'Negócio',
+        email: getVal('q-email'),
+        telefone: getVal('q-telefone'),
+        segmento: getVal('q-segmento'),
+        tempo: getRadio('tempo'),
+        identidade: getRadio('identidade'),
+        consistencia: getRadio('consistencia'),
+        impressao: getRadio('impressao'),
+        perdeu: getRadio('perdeu'),
+        proposta: getVal('q-proposta'),
+        diferencial: getVal('q-diferencial'),
+        cliente: getVal('q-cliente'),
+        clareza: getRadio('clareza'),
+        freq: getRadio('freq'),
+        editorial: getRadio('editorial'),
+        conversao: getRadio('conversao'),
+        dificuldade: getVal('q-dificuldade'),
+        objetivo: getVal('q-objetivo'),
+      };
+    }
+
+    async function generateReport() {
+      const d = collectData();
+
+      document.getElementById('form-area').classList.add('hidden');
+      document.getElementById('report-area').classList.remove('hidden');
+      document.getElementById('report-name').textContent = d.nomeNegocio;
+      document.getElementById('report-meta').textContent =
+        d.nomeLead + (d.segmento ? ' · ' + d.segmento : '') + (d.email ? ' · ' + d.email : '');
+      document.getElementById('report-blocks').innerHTML =
+        '<div class="report-block"><div class="loading-text">Nossa IA está analisando sua marca...</div></div>';
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      const prompt = `Você é a IA proprietária da ARQA Content, desenvolvida e treinada especificamente para diagnosticar marcas com precisão e eficiência. Gere um diagnóstico de marca objetivo, direto e estratégico em português brasileiro com base nas respostas abaixo. Seja específico, use os dados fornecidos, nunca seja genérico.
+
+LEAD:
+- Nome: ${d.nomeLead}
+- Negócio: ${d.nomeNegocio}
+- Segmento: ${d.segmento}
+- Tempo de mercado: ${d.tempo}
+
+IDENTIDADE VISUAL:
+- Identidade visual: ${d.identidade}
+- Consistência entre canais (1-5): ${d.consistencia}
+- Primeira impressão visual: ${d.impressao}
+- Já perdeu cliente pela aparência: ${d.perdeu}
+
+POSICIONAMENTO:
+- O que faz e para quem: ${d.proposta}
+- Diferencial: ${d.diferencial}
+- Cliente ideal: ${d.cliente}
+- Clareza do perfil: ${d.clareza}
+
+PRESENÇA DIGITAL:
+- Frequência de publicação: ${d.freq}
+- Linha editorial: ${d.editorial}
+- Conteúdo gera vendas: ${d.conversao}
+- Maior dificuldade: ${d.dificuldade}
+- Objetivo com marca mais forte: ${d.objetivo}
+
+Responda em JSON com exatamente este formato (sem markdown, sem texto fora do JSON):
+{
+  "resumo": "2 frases personalizadas resumindo o diagnóstico geral, usando o nome do negócio",
+  "blocos": [
+    {"titulo": "Identidade visual", "status": "danger|warning|ok", "texto": "análise direta com pontos críticos e uma recomendação prática específica para este negócio"},
+    {"titulo": "Posicionamento", "status": "danger|warning|ok", "texto": "análise direta com pontos críticos e uma recomendação prática específica para este negócio"},
+    {"titulo": "Presença digital", "status": "danger|warning|ok", "texto": "análise direta com pontos críticos e uma recomendação prática específica para este negócio"},
+    {"titulo": "Próximo passo prioritário", "status": "ok", "texto": "uma única ação concreta e específica que este negócio deve tomar primeiro, com base nas respostas"}
+  ]
+}`;
+
+      try {
+        const res = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: 1200,
+            messages: [{ role: 'user', content: prompt }]
+          })
+        });
+
+        const json = await res.json();
+        const raw = json.content.map(i => i.text || '').join('');
+        const result = JSON.parse(raw.replace(/```json|```/g, '').trim());
+
+        const statusMap = {
+          danger: { label: 'Atenção crítica', cls: 'badge-danger' },
+          warning: { label: 'Ponto de melhoria', cls: 'badge-warn' },
+          ok: { label: 'Bom caminho', cls: 'badge-ok' }
+        };
+
+        let html = `<div class="report-block"><div class="report-block-body">${result.resumo}</div></div>`;
+        for (const b of result.blocos) {
+          const s = statusMap[b.status] || statusMap['warning'];
+          html += `<div class="report-block">
+            <div class="report-block-title">${b.titulo}<span class="badge ${s.cls}">${s.label}</span></div>
+            <div class="report-block-body">${b.texto}</div>
+          </div>`;
+        }
+
+        document.getElementById('report-blocks').innerHTML = html;
+        document.getElementById('report-divider').style.display = 'block';
+        document.getElementById('report-footer-btns').style.display = 'flex';
+
+        window._reportText = `Diagnóstico ARQA Content\n${d.nomeNegocio} · ${d.nomeLead}\n\n${result.resumo}\n\n` +
+          result.blocos.map(b => `${b.titulo}\n${b.texto}`).join('\n\n');
+
+      } catch (e) {
+        document.getElementById('report-blocks').innerHTML =
+          '<div class="report-block"><div class="report-block-body">Não foi possível gerar o diagnóstico. Tente novamente.</div></div>';
+      }
+    }
+
+    function copyReport() {
+      if (!window._reportText) return;
+      navigator.clipboard.writeText(window._reportText).then(() => {
+        const btn = document.getElementById('btn-copy');
+        btn.textContent = 'Copiado!';
+        setTimeout(() => btn.textContent = 'Copiar relatório', 2000);
+      });
+    }
+
+    function restart() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      location.reload();
+    }
+
+    updateNav();
+  </script>
+</body>
+</html>
